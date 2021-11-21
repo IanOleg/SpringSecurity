@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Last name</th>
+            <th>Age</th>
+        </tr>
+        <tr th:each="msg : ${messages}">
+
+            <td align="center" th:text="${msg.name}"></td>
+            <td align="center" th:text="${msg.lastName}"></td>
+            <td align="center" th:text="${msg.age}"></td>
+
+            <td align="center"> <input type="button" value="Edit"
+                                       th:onclick= "|window.location.href='@{/editUser?id={id}(id=${msg.id})}'|"></td>
+
+            <td align="center"> <input type="button" value="Delete"
+                                       th:onclick= "|window.location.href='@{/removeUser?id={id}(id=${msg.id})}'|"></td>
+        </tr>
+    </table>
+
+    <br>
+        <input type="button" value="Add"
+        onclick="window.location.href = 'addUser'"/>
+    </br>
+</div>
+</body>
+</html>
