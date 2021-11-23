@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,13 +19,29 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/")
-    public String printCarsList(ModelMap model) {
-
-        List<User> messages = userService.getAllUsers();
+    @RequestMapping(value = "hello", method = RequestMethod.GET)
+    public String printWelcome(ModelMap model) {
+        List<String> messages = new ArrayList<>();
+        messages.add("Hello!");
+        messages.add("I'm Spring MVC-SECURITY application");
+        messages.add("5.2.0 version by sep'19 ");
         model.addAttribute("messages", messages);
-        return "UsersList";
+        return "hello";
     }
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String loginPage() {
+        int i = 0;
+        return "login";
+    }
+
+//    @GetMapping(value = "/")
+//    public String printCarsList(ModelMap model) {
+//
+//        List<User> messages = userService.getAllUsers();
+//        model.addAttribute("messages", messages);
+//        return "UsersList";
+//    }
 
     @GetMapping(value = "/getUser")
     public String getUser(@RequestParam(name = "id", required = true) Optional<Long> id, Model model) {
