@@ -20,4 +20,6 @@ public interface UserDao {
     List<User> getAllUsers();
 
     void cleanUsersTable();
+
+    public User getUserByName(String s);
 }

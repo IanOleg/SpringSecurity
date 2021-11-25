@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:form="http://www.w3.org/1999/xhtml">
+      xmlns:form="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -17,8 +17,10 @@
     <label for="age">Age</label>
     <input name="age" type="text" th:field="${user.age}" id="age"/>
     <br><br>
-    <input type="submit" value="OK"/>
 
+    <input th:if="${#request.isUserInRole('ADMIN')}" type="submit" value="OK"/>
+    <input type="button" value="Logout"
+           th:onclick= "|window.location.href='@{/logout}'|"/>
 </form>
 </body>
 </html>

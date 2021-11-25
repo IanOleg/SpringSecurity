@@ -103,6 +103,7 @@ public class UserDaoImp implements UserDao {
         }
     }
 
+
     @Override
     public User getUser(long id) {
         User user = null;
@@ -110,6 +111,25 @@ public class UserDaoImp implements UserDao {
             entityManager = managerFactory.createEntityManager();
             entityTransaction = entityManager.getTransaction();
             user = entityManager.find(User.class, (long)id);
+        }catch (Exception e){
+            entityTransaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            entityManager.close();
+        }
+        return user;
+    }
+
+    @Override
+    public User getUserByName(String s) {
+        User user = null;
+        try{
+            entityManager = managerFactory.createEntityManager();
+            entityTransaction = entityManager.getTransaction();
+            TypedQuery<User> query = entityManager.createQuery("select s from User s where s.name= :name", User.class);
+            query.setParameter("name", s);
+            user = query.getSingleResult();
         }catch (Exception e){
             entityTransaction.rollback();
             e.printStackTrace();

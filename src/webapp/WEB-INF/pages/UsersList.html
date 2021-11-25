@@ -20,16 +20,18 @@
             <td align="center" th:text="${msg.age}"></td>
 
             <td align="center"> <input type="button" value="Edit"
-                                       th:onclick= "|window.location.href='@{/editUser?id={id}(id=${msg.id})}'|"></td>
+                                       th:onclick= "|window.location.href='@{/admin/editUser?id={id}(id=${msg.id})}'|"></td>
 
             <td align="center"> <input type="button" value="Delete"
-                                       th:onclick= "|window.location.href='@{/removeUser?id={id}(id=${msg.id})}'|"></td>
+                                       th:onclick= "|window.location.href='@{/admin/removeUser?id={id}(id=${msg.id})}'|"></td>
         </tr>
     </table>
 
     <br>
         <input type="button" value="Add"
-        onclick="window.location.href = 'addUser'"/>
+        onclick="window.location.href = '/admin/addUser'"/>
+        <input type="button" value="Logout"
+               th:onclick= "|window.location.href='@{/logout}'|"/>
     </br>
 </div>
 </body>
