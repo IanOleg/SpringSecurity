@@ -99,6 +99,7 @@ public class UsersController {
     public String saveUser(@ModelAttribute("user") User user) {
 
         userService.saveUser(user);
+
         return "redirect:/admin";
     }
 }

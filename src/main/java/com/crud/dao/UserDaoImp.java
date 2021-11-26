@@ -8,171 +8,61 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao {
 
-    @PersistenceUnit
-    public EntityManagerFactory managerFactory;
-    public EntityTransaction entityTransaction = null;
-    public EntityManager entityManager = null;
+    @PersistenceContext
+    public EntityManager entityManager;
 
     @Override
     public void createUsersTable() {
-        try{
-            entityManager =  managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            Query query = entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS users(id MEDIUMINT NOT NULL AUTO_INCREMENT primary key, name CHAR(30) NOT NULL, lastName CHAR(30) NOT NULL, age TINYINT NOT NULL)");
-            query.executeUpdate();
-            entityTransaction.commit();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
+        Query query = entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS users(id MEDIUMINT NOT NULL AUTO_INCREMENT primary key, name CHAR(30) NOT NULL, lastName CHAR(30) NOT NULL, age TINYINT NOT NULL)");
+        query.executeUpdate();
     }
 
     @Override
     public void dropUsersTable() {
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            Query query = entityManager.createNativeQuery("drop table if exists users");
-            query.executeUpdate();
-            entityTransaction.commit();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
+        Query query = entityManager.createNativeQuery("drop table if exists users");
+        query.executeUpdate();
     }
 
     @Override
     public void saveUser(User user) {
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            entityManager.persist(user);
-            entityTransaction.commit();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
+        entityManager.persist(user);
     }
 
     @Override
     public void mergeUser(User user) {
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            entityManager.merge(user);
-            entityTransaction.commit();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
+        entityManager.merge(user);
     }
 
     @Override
     public void removeUser(long id) {
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            entityManager.remove(entityManager.find(User.class, id));
-//            Query query = entityManager.createQuery("delete from User where id = :pId");
+        entityManager.remove(entityManager.find(User.class, id));
+//            Query query = entityManager.createQuery("delete from Role where id = :pId");
 //            query.setParameter("pId", id);
 //            query.executeUpdate();
-            entityTransaction.commit();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
-    }
 
+    }
 
     @Override
     public User getUser(long id) {
-        User user = null;
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            user = entityManager.find(User.class, (long)id);
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
-        return user;
+        return entityManager.find(User.class, (long)id);
     }
 
     @Override
     public User getUserByName(String s) {
-        User user = null;
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            TypedQuery<User> query = entityManager.createQuery("select s from User s where s.name= :name", User.class);
-            query.setParameter("name", s);
-            user = query.getSingleResult();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
-        return user;
+        TypedQuery<User> query = entityManager.createQuery("select s from User s where s.name= :name", User.class);
+        query.setParameter("name", s);
+        return query.getSingleResult();
     }
 
     @Override
     public List<User> getAllUsers() {
-        List<User> allUsers = null;
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            Query query =  entityManager.createQuery("select s from User s");
-            allUsers = query.getResultList();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
-        return allUsers;
+        Query query =  entityManager.createQuery("select s from User s");
+        return query.getResultList();
     }
 
     @Override
     public void cleanUsersTable() {
-        try{
-            entityManager = managerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            Query query = entityManager.createNativeQuery("truncate users");
-            query.executeUpdate();
-            entityTransaction.commit();
-        }catch (Exception e){
-            entityTransaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            entityManager.close();
-        }
+        Query query = entityManager.createNativeQuery("truncate users");
+        query.executeUpdate();
     }
 }

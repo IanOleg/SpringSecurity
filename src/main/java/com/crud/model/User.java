@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,13 +19,13 @@ public class User implements UserDetails {
     public String name;
 
     @Column(name = "password")
-    private String password;
+    public String password;
 
     @Column(name = "lastName")
     public String lastName;
 
     @Column(name = "age")
-    public Byte age;
+    public int age;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
@@ -84,11 +83,11 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public Byte getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Byte age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -97,10 +96,13 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
+                ", roles=" + roles +
                 '}';
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
