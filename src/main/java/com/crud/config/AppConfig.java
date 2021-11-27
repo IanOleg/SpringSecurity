@@ -1,9 +1,7 @@
 package com.crud.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -13,15 +11,13 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.sql.DataSource;
 import java.util.Properties;
 
-
 @Configuration
 @PropertySource("classpath:db.properties")
-@ComponentScan(basePackages = "com.crud")
+//@ComponentScan(basePackages = {"com.crud.config", "com.crud.dao", "com.crud.service"})
+@ComponentScan("com.crud")
 @EnableTransactionManagement()
 public class AppConfig {
 
@@ -61,7 +57,7 @@ public class AppConfig {
       return em;
    }
 
-   @Bean
+   @Bean()
    public PlatformTransactionManager transactionManager() {
 
       JpaTransactionManager transactionManager = new JpaTransactionManager();

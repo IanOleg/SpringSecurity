@@ -1,7 +1,9 @@
 package com.crud.service;
 
+import com.crud.model.Role;
 import com.crud.model.User;
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -19,5 +21,9 @@ public interface UserService {
 
     User getUser(long id);
 
+    User getUser(long id, boolean addRoles);
+
     List<User> getAllUsers();
+
+    public Set<Role> getRoles(long id);
 }

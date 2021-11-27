@@ -27,13 +27,13 @@ public class User implements UserDetails {
     @Column(name = "age")
     public int age;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-   private Set<Role> roles;
+    private Set<Role> roles;
 
     public User() {
 
@@ -93,13 +93,13 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
+
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
-                ", roles=" + roles +
                 '}';
     }
 

@@ -1,7 +1,9 @@
 package com.crud.dao;
 
+import com.crud.model.Role;
 import com.crud.model.User;
 import java.util.List;
+import java.util.Set;
 
 public interface UserDao {
 
@@ -21,5 +23,9 @@ public interface UserDao {
 
     void cleanUsersTable();
 
-    public User getUserByName(String s);
+    User getUserByName(String s);
+
+    Set<Role> getRoles(long id);
+
+    String getPassword(long id);
 }

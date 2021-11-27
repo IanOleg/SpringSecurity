@@ -1,18 +1,13 @@
 package com.crud.controller;
 
-import com.crud.config.SecurityConfig;
 import com.crud.model.User;
 import com.crud.service.UserService;
-import com.crud.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +22,9 @@ public class UsersController {
     @Autowired
     UserDetailsService userDetails;
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @GetMapping(value = "/hello")
     public String printWelcome(ModelMap model) {
+
         List<String> messages = new ArrayList<>();
         messages.add("Hello!");
         messages.add("I'm Spring MVC-SECURITY application");
@@ -37,13 +33,15 @@ public class UsersController {
         return "hello";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public String loginPage0() {
+
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping(value = "/login")
     public String loginPage() {
+
         return "login";
     }
 
@@ -73,7 +71,7 @@ public class UsersController {
     @GetMapping(value = "/admin/editUser")
     public String editUser(@RequestParam(name = "id", required = true) Optional<Long> id, Model model) {
 
-        User user = userService.getUser(id.get());
+        User user = userService.getUser(id.get(), true);
         model.addAttribute("user", user);
         model.addAttribute("action", "/admin/mergeUser?id="+id.get());
         return "User";
@@ -99,7 +97,6 @@ public class UsersController {
     public String saveUser(@ModelAttribute("user") User user) {
 
         userService.saveUser(user);
-
         return "redirect:/admin";
     }
 }

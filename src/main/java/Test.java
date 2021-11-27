@@ -18,15 +18,20 @@ public class Test {
 
     public static void main(String[] args) {
 
-        UserService userService = context.getBean(UserServiceImp.class);
+        UserService userService = context.getBean(UserService.class);
 
-        User user = new User("name", "lastnmae", (byte) 1);
+        User user = userService.getUser(1);
+        User user1 = userService.getUser(1, true);
 
-        Set<Role> setRole = user.getRoles();
-        setRole.add(new Role(3, "ROLE_DBA"));
-        user.setRoles(setRole);
+        System.out.println(user);
+        System.out.println(user1);
+        //User user = new User("name", "lastnmae", (byte) 1);
 
-        userService.saveUser(user);
+        //Set<Role> setRole = user.getRoles();
+        //setRole.add(new Role(3, "ROLE_DBA"));
+        //user.setRoles(setRole);
+
+        //userService.saveUser(user);
     }
 }
 
