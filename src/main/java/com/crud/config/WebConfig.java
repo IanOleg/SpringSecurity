@@ -25,11 +25,11 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-//@PropertySource("classpath:db.properties")
-//@Configuration
-//@EnableWebMvc
-//@ComponentScan("com.crud")
-//@EnableTransactionManagement
+@PropertySource("classpath:db.properties")
+@Configuration
+@EnableWebMvc
+@ComponentScan("com.crud")
+@EnableTransactionManagement
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired

@@ -49,18 +49,12 @@ public class Test {
 
         Role roleAdmin = new Role("ROLE_ADMIN");
         Role roleUser  = new Role("ROLE_USER");
-//
+
         roleService.saveRole(roleAdmin);
         roleService.saveRole(roleUser);
 
-//        Role roleAdmin = roleService.getRole(8);
-//        Role roleUser  = roleService.getRole(9);
-
         User userIvanov = new User("Ivan Ivanov", "321", "i");
         User userPetrov = new User("Petr Petrov", "321", "p");
-
-//        User userIvanov = userService.getUser(6);
-//        User userPetrov = userService.getUser(7);
 
         userIvanov.addRole(roleAdmin);
         userIvanov.addRole(roleUser);
@@ -70,28 +64,6 @@ public class Test {
         userService.saveUser(userIvanov);
         userService.saveUser(userPetrov);
 
-//        userService.mergeUser(userIvanov);
-//        userService.mergeUser(userPetrov);
-
-
-//        userService.removeUser(6);
-//        userService.removeUser(7);
-
-
-//        UserService userService = context.getBean(UserService.class);
-//
-//        User user = userService.getUser(1);
-//        User user1 = userService.getUser(1, true);
-//
-//        System.out.println(user);
-//        System.out.println(user1);
-        //User user = new User("name", "lastnmae", (byte) 1);
-
-        //Set<Role> setRole = user.getRoles();
-        //setRole.add(new Role(3, "ROLE_DBA"));
-        //user.setRoles(setRole);
-
-        //userService.saveUser(user);
     }
 }
 
