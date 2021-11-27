@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="crud@localhost" uuid="ef700df8-d2d8-4b19-ac52-bc5d55309468">
+    <data-source source="LOCAL" name="ianoleg242@localhost" uuid="ef700df8-d2d8-4b19-ac52-bc5d55309468">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/crud</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/ianoleg242</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <driver-properties>
         <property name="allowPublicKeyRetrieval" value="TRUE" />

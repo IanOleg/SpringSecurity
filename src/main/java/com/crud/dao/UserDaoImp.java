@@ -19,6 +19,10 @@ public class UserDaoImp implements UserDao {
     @Override
     public void saveUser(User user) {
 
+        RoleDao roleDao = new RoleDaoImp();
+        for (Object role: user.getRoles()) {
+            entityManager.merge(role);
+        }
         entityManager.persist(user);
     }
 
@@ -42,50 +46,54 @@ public class UserDaoImp implements UserDao {
 
     public String getPassword(long id){
 
-        TypedQuery<String> query = entityManager.createQuery("select s.password from User s where s.id= :id", String.class);
-        query.setParameter("id", id);
-        return query.getSingleResult();
+        return entityManager.createQuery("select s.password from User s where s.id= :id", String.class)
+                            .setParameter("id", id)
+                            .getSingleResult();
     }
 
     public Set<Role> getRoles(long id) {
 
-        Query query = entityManager.createNativeQuery("select r.id, r.role " +
-                                                         "from roles r " +
-                                                         "inner join user_role ur " +
-                                                         "on r.id = ur.role_id " +
-                                                            "and ur.user_id= :id", Role.class);
-        query.setParameter("id", id);
-        List resultList = query.getResultList();
+        List resultList = entityManager.createNativeQuery("select r.id, r.role " +
+                                                             "from roles r " +
+                                                             "inner join user_role ur " +
+                                                             "on r.id = ur.role_id " +
+                                                                "and ur.user_id= :id", Role.class)
+                                        .setParameter("id", id)
+                                        .getResultList();
+
         return new HashSet<Role>(resultList);
     }
 
     @Override
     public User getUserByName(String s) {
 
-        TypedQuery<User> query = entityManager.createQuery("select s from User s where s.name= :name", User.class);
-        query.setParameter("name", s);
-        return query.getSingleResult();
+//        TypedQuery<User> query = entityManager.createQuery("select s from User s where s.name= :name", User.class);
+//        query.setParameter("name", s);
+//        return query.getSingleResult();
+
+        return entityManager.createQuery("select s from User s where s.name= :name", User.class)
+                            .setParameter("name", s)
+                            .getSingleResult();
     }
 
     @Override
     public List<User> getAllUsers() {
 
-        Query query =  entityManager.createQuery("select s from User s");
-        return query.getResultList();
+        return entityManager.createQuery("select s from User s").getResultList();
     }
 
     @Override
     public void cleanUsersTable() {
 
-        Query query = entityManager.createNativeQuery("truncate users");
-        query.executeUpdate();
+        entityManager.createNativeQuery("truncate users")
+                     .executeUpdate();
     }
 
     @Override
     public void createUsersTable() {
 
-        Query query = entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS users(id MEDIUMINT NOT NULL AUTO_INCREMENT primary key, name CHAR(30) NOT NULL, lastName CHAR(30) NOT NULL, age TINYINT NOT NULL)");
-        query.executeUpdate();
+        entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS users(id MEDIUMINT NOT NULL AUTO_INCREMENT primary key, name CHAR(30) NOT NULL, lastName CHAR(30) NOT NULL, age TINYINT NOT NULL)")
+                     .executeUpdate();
     }
 
     @Override
@@ -93,5 +101,12 @@ public class UserDaoImp implements UserDao {
 
         Query query = entityManager.createNativeQuery("drop table if exists users");
         query.executeUpdate();
+    }
+
+    @Override
+    public void anyNativeQuery(String text) {
+
+        entityManager.createNativeQuery(text)
+                     .executeUpdate();
     }
 }

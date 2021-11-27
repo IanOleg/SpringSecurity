@@ -28,4 +28,6 @@ public interface UserDao {
     Set<Role> getRoles(long id);
 
     String getPassword(long id);
+
+    void anyNativeQuery(String text);
 }

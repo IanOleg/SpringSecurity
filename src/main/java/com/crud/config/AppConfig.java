@@ -16,8 +16,8 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:db.properties")
-//@ComponentScan(basePackages = {"com.crud.config", "com.crud.dao", "com.crud.service"})
-@ComponentScan("com.crud")
+@ComponentScan(basePackages = {"com.crud.config", "com.crud.dao", "com.crud.service"})
+//@ComponentScan("com.crud")
 @EnableTransactionManagement()
 public class AppConfig {
 

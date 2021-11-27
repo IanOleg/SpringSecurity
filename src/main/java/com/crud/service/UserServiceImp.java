@@ -83,4 +83,10 @@ public class UserServiceImp implements UserService{
 
         userDao.dropUsersTable();
     }
+
+    @Override
+    public void anyNativeQuery(String text) {
+
+        userDao.anyNativeQuery(text);
+    }
 }

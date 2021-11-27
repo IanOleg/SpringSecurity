@@ -10,14 +10,12 @@
     <table border="1">
         <tr>
             <th>Name</th>
-            <th>Last name</th>
-            <th>Age</th>
+            <th>Login name</th>
         </tr>
         <tr th:each="msg : ${messages}">
 
+            <td align="center" th:text="${msg.loginName}"></td>
             <td align="center" th:text="${msg.name}"></td>
-            <td align="center" th:text="${msg.lastName}"></td>
-            <td align="center" th:text="${msg.age}"></td>
 
             <td align="center"> <input type="button" value="Edit"
                                        th:onclick= "|window.location.href='@{/admin/editUser?id={id}(id=${msg.id})}'|"></td>

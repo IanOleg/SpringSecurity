@@ -26,4 +26,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     public Set<Role> getRoles(long id);
+
+    void anyNativeQuery(String text);
 }
