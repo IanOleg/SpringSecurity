@@ -9,19 +9,23 @@
 <div>
     <table border="1">
         <tr>
-            <th>Name</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Phone number</th>
             <th>Login name</th>
         </tr>
         <tr th:each="msg : ${messages}">
 
-            <td align="center" th:text="${msg.name}"></td>
+            <td align="center" th:text="${msg.firstName}"></td>
+            <td align="center" th:text="${msg.lastName}"></td>
+            <td align="center" th:text="${msg.phoneNumber}"></td>
             <td align="center" th:text="${msg.loginName}"></td>
 
             <td align="center"> <input type="button" value="Edit"
-                                       th:onclick= "|window.location.href='@{/admin/editUser?id={id}(id=${msg.id})}'|"></td>
+                                       th:onclick= "|window.location.href='@{/admin/editUser?loginName={loginName}(loginName=${msg.loginName})}'|"></td>
 
             <td align="center"> <input type="button" value="Delete"
-                                       th:onclick= "|window.location.href='@{/admin/removeUser?id={id}(id=${msg.id})}'|"></td>
+                                       th:onclick= "|window.location.href='@{/admin/removeUser?loginName={loginName}(loginName=${msg.loginName})}'|"></td>
         </tr>
     </table>
 

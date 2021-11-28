@@ -15,19 +15,19 @@ public interface UserDao {
 
     void mergeUser(User user);
 
-    void removeUser(long id);
+    void removeUser(String loginName);
 
-    User getUser(long id);
+    User getUser(String loginName);
 
     List<User> getAllUsers();
 
     void cleanUsersTable();
 
-    User getUserByName(String s);
+    User getUserByName(String loginName);
 
-    Set<Role> getRoles(long id);
+    Set<Role> getRoles(String loginName);
 
-    String getPassword(long id);
+    String getPassword(String loginName);
 
     void anyNativeQuery(String text);
 }

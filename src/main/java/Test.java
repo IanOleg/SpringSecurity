@@ -1,16 +1,10 @@
 import com.crud.config.AppConfig;
-import com.crud.dao.UserDao;
-import com.crud.dao.UserDaoImp;
 import com.crud.model.Role;
 import com.crud.model.User;
 import com.crud.service.RoleService;
 import com.crud.service.UserService;
-import com.crud.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.Set;
 
 public class Test {
 
@@ -27,34 +21,34 @@ public class Test {
         userService.anyNativeQuery("drop table if exists ianoleg242.roles");
 
         userService.anyNativeQuery("create table ianoleg242.users(" +
-                                            "id       bigint auto_increment primary  key," +
-                                            "name     varchar(255) not null," +
-                                            "loginName varchar(255) not null," +
-                                            "password varchar(255) null)");
+                                        "loginname varchar(255) not null primary key," +
+                                        "firstname varchar(255) not null," +
+                                        "lastname varchar(255) not null," +
+                                        "phonenumber varchar(255) not null," +
+                                        "password varchar(255) null)");
 
-        userService.anyNativeQuery("create table ianoleg242.roles (" +
-                                            "id   bigint auto_increment primary key," +
-                                            "role varchar(255) null," +
-                                            "constraint UK_sgksp4dwl2848ia9w5vb3b121 unique (role))");
+        userService.anyNativeQuery("create table roles(" +
+                                            "role varchar(255) not null primary key)");
 
-        userService.anyNativeQuery("create table ianoleg242.user_role(" +
-                                            "user_id bigint not null," +
-                                            "role_id bigint not null," +
-                                            "constraint user_role_roles_id_fk" +
-                                            "        foreign key (role_id) references roles (id)," +
-                                            "constraint FKm844b5vqh44ddxv7duo5e12ao" +
-                                            "        foreign key (role_id) references roles (id)," +
-                                            "constraint user_role_users_id_fk" +
-                                            "        foreign key (user_id) references users (id))");
+        userService.anyNativeQuery("create table user_role(" +
+                    "loginname varchar(255) not null," +
+                    "role      varchar(255) not null," +
+                    "primary key (loginname, role)," +
+                    "constraint FK3q66atonv6gbp10chtg5ogetv" +
+                    "    foreign key (loginname) references users (loginname)," +
+                    "constraint FKk4riu5jjrbgbvtu6fqqtsy62u" +
+                    "     foreign key (role) references roles (role))");
 
         Role roleAdmin = new Role("ROLE_ADMIN");
         Role roleUser  = new Role("ROLE_USER");
+        Role roleManager = new Role("ROLE_MANAGER");
 
         roleService.saveRole(roleAdmin);
         roleService.saveRole(roleUser);
+        roleService.saveRole(roleManager);
 
-        User userIvanov = new User("Ivan Ivanov", "321", "i");
-        User userPetrov = new User("Petr Petrov", "321", "p");
+        User userIvanov = new User("i", "321", "Ivan", "Ivanov","02");
+        User userPetrov = new User("p", "321", "Petr", "Petrov","03");
 
         userIvanov.addRole(roleAdmin);
         userIvanov.addRole(roleUser);
@@ -63,7 +57,6 @@ public class Test {
 
         userService.saveUser(userIvanov);
         userService.saveUser(userPetrov);
-
     }
 }
 

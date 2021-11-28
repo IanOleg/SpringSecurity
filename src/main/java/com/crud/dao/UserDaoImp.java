@@ -20,8 +20,10 @@ public class UserDaoImp implements UserDao {
     public void saveUser(User user) {
 
         RoleDao roleDao = new RoleDaoImp();
-        for (Object role: user.getRoles()) {
-            entityManager.merge(role);
+        if (user.getRoles() != null){
+            for (Object role: user.getRoles()) {
+                entityManager.merge(role);
+            }
         }
         entityManager.persist(user);
     }
@@ -33,32 +35,32 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void removeUser(long id) {
+    public void removeUser(String loginName) {
 
-        entityManager.remove(entityManager.getReference(User.class, id));
+        entityManager.remove(entityManager.getReference(User.class, loginName));
     }
 
     @Override
-    public User getUser(long id) {
+    public User getUser(String loginName) {
 
-        return entityManager.find(User.class, (long)id);
+        return entityManager.find(User.class, loginName);
     }
 
-    public String getPassword(long id){
+    public String getPassword(String loginName){
 
-        return entityManager.createQuery("select s.password from User s where s.id= :id", String.class)
-                            .setParameter("id", id)
+        return entityManager.createQuery("select s.password from User s where s.loginName= :loginName", String.class)
+                            .setParameter("loginName", loginName)
                             .getSingleResult();
     }
 
-    public Set<Role> getRoles(long id) {
+    public Set<Role> getRoles(String loginName) {
 
-        List resultList = entityManager.createNativeQuery("select r.id, r.role " +
+        List resultList = entityManager.createNativeQuery("select r.role " +
                                                              "from roles r " +
                                                              "inner join user_role ur " +
-                                                             "on r.id = ur.role_id " +
-                                                                "and ur.user_id= :id", Role.class)
-                                        .setParameter("id", id)
+                                                             "on r.role = ur.role " +
+                                                                "and ur.loginName= :loginName", Role.class)
+                                        .setParameter("loginName", loginName)
                                         .getResultList();
 
         return new HashSet<Role>(resultList);
@@ -67,8 +69,8 @@ public class UserDaoImp implements UserDao {
     @Override
     public User getUserByName(String s) {
 
-        return entityManager.createQuery("select s from User s where s.loginName= :name", User.class)
-                            .setParameter("name", s)
+        return entityManager.createQuery("select s from User s where s.loginName= :loginName", User.class)
+                            .setParameter("loginName", s)
                             .getSingleResult();
     }
 

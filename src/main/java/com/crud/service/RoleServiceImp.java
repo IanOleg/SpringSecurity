@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Component
 @Transactional
@@ -26,12 +28,18 @@ public class RoleServiceImp implements RoleService {
     }
 
     @Override
-    public void removeRole(long id) {
-        roleDao.removeRole(id);
+    public void removeRole(String role) {
+        roleDao.removeRole(role);
     }
 
     @Override
-    public Role getRole(long id) {
-        return roleDao.getRole(id);
+    public Role getRole(String role) {
+        return roleDao.getRole(role);
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+
+        return roleDao.getAllRoles();
     }
 }

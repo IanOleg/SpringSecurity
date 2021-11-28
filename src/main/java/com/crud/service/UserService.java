@@ -17,15 +17,17 @@ public interface UserService {
 
     void mergeUser(User user);
 
-    void removeUser(long id);
+    void mergeUser(User user, boolean addRoles);
 
-    User getUser(long id);
+    void removeUser(String loginName);
 
-    User getUser(long id, boolean addRoles);
+    User getUser(String loginName);
+
+    User getUser(String loginName, boolean addRoles);
 
     List<User> getAllUsers();
 
-    public Set<Role> getRoles(long id);
+    public Set<Role> getRoles(String loginName);
 
     void anyNativeQuery(String text);
 }

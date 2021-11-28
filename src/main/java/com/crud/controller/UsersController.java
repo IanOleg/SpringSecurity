@@ -1,6 +1,8 @@
 package com.crud.controller;
 
+import com.crud.model.Role;
 import com.crud.model.User;
+import com.crud.service.RoleService;
 import com.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,16 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class UsersController {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private RoleService roleService;
     @Autowired
     UserDetailsService userDetails;
 
@@ -53,34 +54,46 @@ public class UsersController {
         return "UsersList";
     }
 
-    @GetMapping(value = "/getUser")
+    @GetMapping(value = "/user/getProfile")
     public String getUser(Model model, Principal principal) {
 
         model.addAttribute("user", userDetails.loadUserByUsername(principal.getName()));
-        model.addAttribute("action", "/getUser");
-        return "User";
+        model.addAttribute("action", "/user/mergeUser");
+        return "UserForUser";
+    }
+
+    @PostMapping(value = "/user/mergeUser")
+    public String saveProfile(@ModelAttribute("user") User user, Principal principal) {
+
+        if(!principal.getName().equals(user.loginName)){
+            return "redirect:/logout";
+        }
+        userService.mergeUser(user, false);
+        return "redirect:/user/getProfile";
     }
 
     @GetMapping(value = "/admin/removeUser")
-    public String removeUser(@RequestParam(name = "id", required = true) Optional<Long> id, Model model) {
+    public String removeUser(@RequestParam(name = "loginName", required = true) Optional<String> loginName, Model model) {
 
-        userService.removeUser(id.get());
+        userService.removeUser(loginName.get());
         return "redirect:/admin";
     }
 
     @GetMapping(value = "/admin/editUser")
-    public String editUser(@RequestParam(name = "id", required = true) Optional<Long> id, Model model) {
+    public String editUser(@RequestParam(name = "loginName", required = true) Optional<String > loginName, Model model) {
 
-        User user = userService.getUser(id.get(), true);
+        List<Role> rolesList = roleService.getAllRoles();
+        User user = userService.getUser(loginName.get(), true);
         model.addAttribute("user", user);
-        model.addAttribute("action", "/admin/mergeUser?id="+id.get());
-        return "User";
+        model.addAttribute("rolesList", rolesList);
+        model.addAttribute("action", "/admin/mergeUser?id="+loginName.get());
+        return "UserForAdmin";
     }
 
     @PostMapping (value = "/admin/mergeUser")
     public String mergeUser(@ModelAttribute("user") User user, Model model) {
 
-        userService.mergeUser(user);
+        userService.mergeUser(user, true);
         return "redirect:/admin";
     }
 
@@ -88,9 +101,11 @@ public class UsersController {
     public String addUser(Model model) {
 
         User user = new User();
+        List<Role> rolesList = roleService.getAllRoles();
+        model.addAttribute("rolesList", rolesList);
         model.addAttribute("user", user);
         model.addAttribute("action", "/admin/saveUser");
-        return "User";
+        return "UserForAdmin";
     }
 
     @PostMapping(value = "/admin/saveUser")

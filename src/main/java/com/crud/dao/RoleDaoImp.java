@@ -4,6 +4,7 @@ import com.crud.model.Role;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class RoleDaoImp implements RoleDao{
@@ -24,20 +25,26 @@ public class RoleDaoImp implements RoleDao{
     }
 
     @Override
-    public void removeRole(long id) {
+    public void removeRole(String role) {
 
-        entityManager.remove(getReferenceRole(id));
+        entityManager.remove(getReferenceRole(role));
     }
 
     @Override
-    public Role getRole(long id) {
+    public Role getRole(String role) {
 
-        return entityManager.find(Role.class, (long)id);
+        return entityManager.find(Role.class, role);
     }
 
     @Override
-    public Role getReferenceRole(long id) {
+    public Role getReferenceRole(String role) {
 
-        return entityManager.getReference(Role.class, (long)id);
+        return entityManager.getReference(Role.class, role);
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+
+        return entityManager.createQuery("select r from Role r").getResultList();
     }
 }

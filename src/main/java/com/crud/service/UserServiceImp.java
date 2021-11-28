@@ -27,43 +27,56 @@ public class UserServiceImp implements UserService{
     @Override
     public void mergeUser(User user) {
 
-        user.setPassword(userDao.getPassword(user.id));
+        user.setPassword(userDao.getPassword(user.loginName));
         userDao.mergeUser(user);
     }
 
     @Override
-    public void removeUser(long id) {
+    public void mergeUser(User user, boolean addRoles) {
 
-        userDao.removeUser(id);
+        user.setPassword(userDao.getPassword(user.loginName));
+
+        if (!addRoles) {
+            user.setRoles(getRoles(user.loginName));
+        }
+        userDao.mergeUser(user);
     }
 
     @Override
-    public User getUser(long id) {
+    public void removeUser(String loginName) {
 
-        User user = userDao.getUser(id);
+        userDao.removeUser(loginName);
+    }
+
+    @Override
+    public User getUser(String loginName) {
+
+        User user = userDao.getUser(loginName);
         return user;
     }
 
     @Override
-    public User getUser(long id, boolean addRoles) {
+    public User getUser(String loginName, boolean addRoles) {
 
-        User user = userDao.getUser(id);
+        User user = userDao.getUser(loginName);
         if (addRoles && user != null) {
-            user.setRoles(getRoles(user.id));
+            user.setRoles(getRoles(user.loginName));
         }
         return user;
     }
 
-    public Set<Role> getRoles(long id) {
 
-        return userDao.getRoles(id);
-    }
 
     @Override
     public List<User> getAllUsers() {
 
         List<User> userList = userDao.getAllUsers();
         return userList;
+    }
+
+    @Override
+    public Set<Role> getRoles(String loginName) {
+        return userDao.getRoles(loginName);
     }
 
     @Override
