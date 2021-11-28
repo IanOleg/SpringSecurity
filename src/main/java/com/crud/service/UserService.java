@@ -30,4 +30,6 @@ public interface UserService {
     public Set<Role> getRoles(String loginName);
 
     void anyNativeQuery(String text);
+
+    User getReferenceUser(String loginName);
 }

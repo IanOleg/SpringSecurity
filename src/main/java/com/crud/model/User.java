@@ -15,21 +15,21 @@ public class User implements UserDetails {
 
     @Id
     @Column(name = "loginname", nullable = false, unique = true)
-    public String loginName;
+    private String loginName;
 
     @Column(name = "password")
-    public String password;
+    private String password;
 
     @Column(name = "firstname")
-    public String firstName;
+    private String firstName;
 
     @Column(name = "lastname")
-    public String lastName;
+    private String lastName;
 
     @Column(name = "phonenumber")
-    public String phoneNumber;
+    private String phoneNumber;
 
-    @ManyToMany(cascade = {CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "loginname"),

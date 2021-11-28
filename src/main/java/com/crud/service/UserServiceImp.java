@@ -27,17 +27,17 @@ public class UserServiceImp implements UserService{
     @Override
     public void mergeUser(User user) {
 
-        user.setPassword(userDao.getPassword(user.loginName));
+        user.setPassword(userDao.getPassword(user.getLoginName()));
         userDao.mergeUser(user);
     }
 
     @Override
     public void mergeUser(User user, boolean addRoles) {
 
-        user.setPassword(userDao.getPassword(user.loginName));
+        user.setPassword(userDao.getPassword(user.getLoginName()));
 
         if (!addRoles) {
-            user.setRoles(getRoles(user.loginName));
+            user.setRoles(getRoles(user.getLoginName()));
         }
         userDao.mergeUser(user);
     }
@@ -60,12 +60,10 @@ public class UserServiceImp implements UserService{
 
         User user = userDao.getUser(loginName);
         if (addRoles && user != null) {
-            user.setRoles(getRoles(user.loginName));
+            user.setRoles(getRoles(user.getLoginName()));
         }
         return user;
     }
-
-
 
     @Override
     public List<User> getAllUsers() {
@@ -101,5 +99,10 @@ public class UserServiceImp implements UserService{
     public void anyNativeQuery(String text) {
 
         userDao.anyNativeQuery(text);
+    }
+
+    @Override
+    public User getReferenceUser(String loginName) {
+        return userDao.getReferenceUser(loginName);
     }
 }

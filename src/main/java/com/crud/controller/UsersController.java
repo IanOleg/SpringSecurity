@@ -54,24 +54,6 @@ public class UsersController {
         return "UsersList";
     }
 
-    @GetMapping(value = "/user/getProfile")
-    public String getUser(Model model, Principal principal) {
-
-        model.addAttribute("user", userDetails.loadUserByUsername(principal.getName()));
-        model.addAttribute("action", "/user/mergeUser");
-        return "UserForUser";
-    }
-
-    @PostMapping(value = "/user/mergeUser")
-    public String saveProfile(@ModelAttribute("user") User user, Principal principal) {
-
-        if(!principal.getName().equals(user.loginName)){
-            return "redirect:/logout";
-        }
-        userService.mergeUser(user, false);
-        return "redirect:/user/getProfile";
-    }
-
     @GetMapping(value = "/admin/removeUser")
     public String removeUser(@RequestParam(name = "loginName", required = true) Optional<String> loginName, Model model) {
 
@@ -111,7 +93,26 @@ public class UsersController {
     @PostMapping(value = "/admin/saveUser")
     public String saveUser(@ModelAttribute("user") User user) {
 
+        user.setPassword("");
         userService.saveUser(user);
         return "redirect:/admin";
+    }
+
+    @GetMapping(value = "/user/getProfile")
+    public String getUser(Model model, Principal principal) {
+
+        model.addAttribute("user", userService.getUser(principal.getName(), true));
+        model.addAttribute("action", "/user/mergeUser");
+        return "UserForUser";
+    }
+
+    @PostMapping(value = "/user/mergeUser")
+    public String saveProfile(@ModelAttribute("user") User user, Principal principal) {
+
+        if(!principal.getName().equals(user.getLoginName())){
+            return "redirect:/logout";
+        }
+        userService.mergeUser(user, false);
+        return "redirect:/user/getProfile";
     }
 }

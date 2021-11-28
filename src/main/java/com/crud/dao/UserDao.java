@@ -30,4 +30,6 @@ public interface UserDao {
     String getPassword(String loginName);
 
     void anyNativeQuery(String text);
+
+    User getReferenceUser(String loginName);
 }

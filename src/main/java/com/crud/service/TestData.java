@@ -21,17 +21,17 @@ public class TestData {
         userService.anyNativeQuery("drop table if exists ianoleg242.users");
         userService.anyNativeQuery("drop table if exists ianoleg242.roles");
 
-        userService.anyNativeQuery("create table ianoleg242.users(" +
+        userService.anyNativeQuery("create table if not exists ianoleg242.users(" +
                 "loginname varchar(255) not null primary key," +
                 "firstname varchar(255) not null," +
                 "lastname varchar(255) not null," +
                 "phonenumber varchar(255) not null," +
                 "password varchar(255) null)");
 
-        userService.anyNativeQuery("create table roles(" +
+        userService.anyNativeQuery("create table if not exists roles(" +
                 "role varchar(255) not null primary key)");
 
-        userService.anyNativeQuery("create table user_role(" +
+        userService.anyNativeQuery("create table if not exists user_role(" +
                 "loginname varchar(255) not null," +
                 "role      varchar(255) not null," +
                 "primary key (loginname, role)," +
@@ -40,8 +40,8 @@ public class TestData {
                 "constraint FKk4riu5jjrbgbvtu6fqqtsy62u" +
                 "     foreign key (role) references roles (role))");
 
-        Role roleAdmin = new Role("ROLE_ADMIN");
-        Role roleUser  = new Role("ROLE_USER");
+        Role roleAdmin   = new Role("ROLE_ADMIN");
+        Role roleUser    = new Role("ROLE_USER");
         Role roleManager = new Role("ROLE_MANAGER");
 
         roleService.saveRole(roleAdmin);

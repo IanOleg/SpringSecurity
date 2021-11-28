@@ -41,6 +41,12 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    public User getReferenceUser(String loginName) {
+
+        return entityManager.getReference(User.class, loginName);
+    }
+
+    @Override
     public User getUser(String loginName) {
 
         return entityManager.find(User.class, loginName);
