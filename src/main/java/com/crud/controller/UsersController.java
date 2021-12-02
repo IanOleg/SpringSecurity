@@ -24,13 +24,14 @@ public class UsersController {
     UserDetailsService userDetails;
 
     @GetMapping(value = "/hello")
-    public String printWelcome(ModelMap model) {
+    public @ResponseBody String printWelcome(ModelMap model) {
 
         List<String> messages = new ArrayList<>();
         messages.add("Hello!");
         messages.add("I'm Spring MVC-SECURITY application");
         messages.add("5.2.0 version by sep'19 ");
         model.addAttribute("messages", messages);
+
         return "hello";
     }
 
@@ -101,9 +102,10 @@ public class UsersController {
     @GetMapping(value = "/user/getProfile")
     public String getUser(Model model, Principal principal) {
 
-        model.addAttribute("user", userService.getUser(principal.getName(), true));
+        List<User> messages = userService.getAllUsers(principal.getName());
+        model.addAttribute("messages", messages);
         model.addAttribute("action", "/user/mergeUser");
-        return "UserForUser";
+        return "UsersList";
     }
 
     @PostMapping(value = "/user/mergeUser")

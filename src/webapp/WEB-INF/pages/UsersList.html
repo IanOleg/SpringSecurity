@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,7 @@
             <th>Last name</th>
             <th>Phone number</th>
             <th>Login name</th>
+            <th>Roles</th>
         </tr>
         <tr th:each="msg : ${messages}">
 
@@ -20,20 +21,27 @@
             <td align="center" th:text="${msg.lastName}"></td>
             <td align="center" th:text="${msg.phoneNumber}"></td>
             <td align="center" th:text="${msg.loginName}"></td>
+            <td align="center" th:text="${msg.getRolesView()}"></td>
+
+            <div sec:authorize="hasRole('ADMIN')">
 
             <td align="center"> <input type="button" value="Edit"
                                        th:onclick= "|window.location.href='@{/admin/editUser?loginName={loginName}(loginName=${msg.loginName})}'|"></td>
 
             <td align="center"> <input type="button" value="Delete"
                                        th:onclick= "|window.location.href='@{/admin/removeUser?loginName={loginName}(loginName=${msg.loginName})}'|"></td>
+            </div>
         </tr>
     </table>
 
     <br>
-        <input type="button" value="Add"
-        onclick="window.location.href = '/admin/addUser'"/>
-        <input type="button" value="Logout"
-               th:onclick= "|window.location.href='@{/logout}'|"/>
+        <div sec:authorize="hasRole('ADMIN')">
+            <input type="button" value="Add" onclick="window.location.href = '/admin/addUser'"/>
+        </div>
+         <br>
+        <div>
+        <input type="button" value="Logout" th:onclick= "|window.location.href='@{/logout}'|"/>
+        </div>
     </br>
 </div>
 </body>

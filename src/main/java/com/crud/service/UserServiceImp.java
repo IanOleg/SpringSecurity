@@ -84,6 +84,12 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
+    public List<User> getAllUsers(String s) {
+
+        return userDao.getAllUsers(s);
+    }
+
+    @Override
     public void createUsersTable() {
 
         userDao.createUsersTable();

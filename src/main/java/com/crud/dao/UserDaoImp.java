@@ -87,6 +87,14 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    public List<User> getAllUsers(String s) {
+
+        return entityManager.createQuery("select s from User s where s.loginName =: loginName")
+                            .setParameter("loginName", s)
+                            .getResultList();
+    }
+
+    @Override
     public void cleanUsersTable() {
 
         entityManager.createNativeQuery("truncate users")

@@ -27,6 +27,8 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    List<User> getAllUsers(String s);
+
     public Set<Role> getRoles(String loginName);
 
     void anyNativeQuery(String text);
